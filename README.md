@@ -61,7 +61,7 @@ Then, from the project folder:
 powershell -ExecutionPolicy Bypass -File build-installer.ps1
 ```
 
-This publishes the app as a self-contained `.exe` into `installer\publish\` and compiles [installer\PdfPasswordRemover.iss](installer/PdfPasswordRemover.iss). The output is `installer\output\PdfPasswordRemover-<version>-setup.exe`. The version comes from `<Version>` in `PdfPasswordRemover.csproj`.
+This publishes the app as a self-contained `.exe` into `installer\publish\` and compiles [installer\PdfPasswordRemover.iss](installer/PdfPasswordRemover.iss). The output is `installer\output\PdfPasswordRemover-<version>-setup.exe`. The version comes from `<Version>` in `PdfPasswordRemover.csproj`, or from `-Version 1.2.0` if given.
 
 What the installer does:
 
@@ -74,6 +74,19 @@ What the installer does:
 To use a newer qpdf, edit `QpdfVersion`, `QpdfSha256` and `QpdfZipSize` at the top of the `.iss` file. Get the values for the `qpdf-<version>-msvc64.zip` asset from the [qpdf releases page](https://github.com/qpdf/qpdf/releases).
 
 The installer isn't code-signed, so Windows SmartScreen will warn users about an unrecognized app the first time they run it.
+
+To also build a portable zip (the `.exe` plus qpdf's `bin` files, no install needed), run `build-portable.ps1` after `build-installer.ps1`. It downloads the qpdf version set in the `.iss` file and checks its SHA-256. The output is `installer\output\PdfPasswordRemover-<version>-portable.zip`.
+
+## Releasing
+
+Push a version tag and [.github/workflows/release.yml](.github/workflows/release.yml) builds the installer and the portable zip on GitHub Actions and publishes them as a GitHub Release:
+
+```
+git tag v1.2.0
+git push origin v1.2.0
+```
+
+The version comes from the tag, so there's no need to edit the `.csproj` (its `<Version>` is only used for local builds). Use plain `vMAJOR.MINOR.PATCH` tags.
 
 ## Finding qpdf
 

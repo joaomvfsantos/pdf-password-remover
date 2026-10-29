@@ -3,7 +3,8 @@
 
 #define AppName "PDF Password Remover"
 #define AppExe "PdfPasswordRemover.exe"
-#define AppVersion GetVersionNumbersString(AddBackslash(SourcePath) + "publish\" + AppExe)
+; The exe's file version is 4-part (1.2.0.0); RemoveFileExt drops the last ".0" to give 1.2.0.
+#define AppVersion RemoveFileExt(GetVersionNumbersString(AddBackslash(SourcePath) + "publish\" + AppExe))
 
 ; qpdf is downloaded from its official GitHub release during installation.
 ; When updating, change the version and paste the SHA-256 from the release page.

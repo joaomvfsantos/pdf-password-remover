@@ -1,11 +1,15 @@
 # Publishes the app as a self-contained single .exe and compiles the Inno Setup installer.
 # Output: installer\output\PdfPasswordRemover-<version>-setup.exe
+# -Version overrides <Version> from the .csproj (the release workflow passes the tag's version).
+param([string]$Version)
 $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
 
+$versionArgs = @()
+if ($Version) { $versionArgs += "-p:Version=$Version" }
 dotnet publish "$root\PdfPasswordRemover.csproj" -c Release -r win-x64 --self-contained true `
     -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true `
-    -o "$root\installer\publish"
+    @versionArgs -o "$root\installer\publish"
 if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed" }
 
 $iscc = @(
