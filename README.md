@@ -1,99 +1,67 @@
 # PDF Password Remover
 
-A small Windows app that removes the password from a PDF. It is a GUI wrapper around [qpdf](https://qpdf.sourceforge.io/) and runs:
+Tired of typing the same password every time you open a PDF? PDF Password Remover saves an unlocked copy of the file, so it opens without asking.
 
-```
-qpdf --password=<password> --decrypt input.pdf output.pdf
-```
+Bank statements, payslips, utility bills and other documents often arrive password-protected. If you know the password, this app removes it in a couple of clicks.
 
-Pick a PDF, enter its password, click **Decrypt**, and choose where to save the unlocked copy.
+- **Simple**: pick the file, type the password, click Decrypt.
+- **Private**: everything happens on your computer. Your files and passwords are never uploaded anywhere.
+- **Safe**: your original file is left untouched. The app saves a separate unlocked copy.
+- **Free and open source.**
 
-## Requirements
+> [!NOTE]
+> You need to know the PDF's password. This app does not guess or crack passwords.
 
-- Windows 10 or 11
-- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) (to build)
-- [qpdf](https://github.com/qpdf/qpdf/releases) (to run)
+## Download
 
-Install both with winget:
+Get the latest version from the [Releases page](https://github.com/joaomvfsantos/pdf-password-remover/releases/latest). There are two options:
 
-```
-winget install Microsoft.DotNet.SDK.10
-winget install QPDF.QPDF
-```
+| File | What it is |
+| --- | --- |
+| `PdfPasswordRemover-<version>-setup.exe` | **Installer (recommended).** Adds the app to your Start menu and can be removed from Windows Settings like any other app. |
+| `PdfPasswordRemover-<version>-portable.zip` | **Portable version.** Nothing to install: unzip it anywhere (even a USB stick) and run `PdfPasswordRemover.exe`. |
 
-## Build
+Works on Windows 10 and Windows 11 (64-bit). Nothing else needs to be installed.
 
-From the project folder:
+## Installing
 
-```
-dotnet build -c Release
-```
+1. Run the `setup.exe` you downloaded.
+2. If Windows shows **"Windows protected your PC"**, click **More info**, then **Run anyway**. This appears because the app isn't code-signed, which is common for small free apps.
+3. Choose whether to install just for you (no admin rights needed) or for everyone on the computer.
+4. Follow the steps to finish. The installer needs an internet connection, because it downloads [qpdf](https://qpdf.sourceforge.io/), the free tool that does the actual decryption.
 
-The app is written to `bin\Release\net10.0-windows\PdfPasswordRemover.exe`.
+To uninstall, go to **Settings > Apps > Installed apps**, find **PDF Password Remover** and click **Uninstall**.
 
-To run it straight from source during development:
+## How to use it
 
-```
-dotnet run
-```
+1. Open **PDF Password Remover** from the Start menu.
+2. Click **Browse…** and choose the locked PDF. You can also paste the file's path into the box.
+3. Type the PDF's password.
+4. Click **Decrypt** (or press Enter).
+5. Choose where to save the unlocked copy. By default it's saved next to the original as `<name> (unlocked).pdf`.
 
-## Publish a single .exe
+That's it. The new file opens without a password.
 
-```
-dotnet publish -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true
-```
+## Troubleshooting
 
-The output is `bin\Release\net10.0-windows\win-x64\publish\PdfPasswordRemover.exe`. It needs the .NET 10 Desktop Runtime on the target machine.
+**"invalid password"**
+The password is wrong. Check for typos, Caps Lock, and extra spaces. Passwords are case-sensitive.
 
-If the target machine shouldn't need the runtime installed, use `--self-contained true` instead. The .exe gets much larger.
+**"The output file must be different from the input file."**
+The app won't overwrite the original. Pick a different name or folder for the unlocked copy.
 
-## Build the installer
+**"qpdf was not found"**
+Part of the app is missing. Reinstall it with the installer, or if you use the portable version, make sure all the files from the zip are kept together in the same folder.
 
-The installer is built with [Inno Setup](https://jrsoftware.org/isinfo.php) 6.5 or later:
+**"qpdf reported warnings"**
+The file was still saved. Some PDFs have small errors that qpdf fixes or works around while unlocking. Open the new file to check it looks right.
 
-```
-winget install JRSoftware.InnoSetup
-```
+## Found a bug or have an idea?
 
-Then, from the project folder:
+[Open an issue](https://github.com/joaomvfsantos/pdf-password-remover/issues) on GitHub.
 
-```
-powershell -ExecutionPolicy Bypass -File build-installer.ps1
-```
+Want to build the app yourself or help improve it? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-This publishes the app as a self-contained `.exe` into `installer\publish\` and compiles [installer\PdfPasswordRemover.iss](installer/PdfPasswordRemover.iss). The output is `installer\output\PdfPasswordRemover-<version>-setup.exe`. The version comes from `<Version>` in `PdfPasswordRemover.csproj`, or from `-Version 1.2.0` if given.
+## Credits
 
-What the installer does:
-
-- Includes the .NET runtime, so end users don't need to install .NET.
-- Asks whether to install for the current user only (no admin prompt) or for all users (admin, Program Files).
-- Downloads qpdf from its official GitHub release, checks the zip's SHA-256, and installs qpdf's `bin` files to `<install folder>\qpdf\`. This step needs an internet connection.
-- Adds a Start menu shortcut, and optionally a desktop shortcut.
-- Removes everything, including qpdf, when the app is uninstalled.
-
-To use a newer qpdf, edit `QpdfVersion`, `QpdfSha256` and `QpdfZipSize` at the top of the `.iss` file. Get the values for the `qpdf-<version>-msvc64.zip` asset from the [qpdf releases page](https://github.com/qpdf/qpdf/releases).
-
-The installer isn't code-signed, so Windows SmartScreen will warn users about an unrecognized app the first time they run it.
-
-To also build a portable zip (the `.exe` plus qpdf's `bin` files, no install needed), run `build-portable.ps1` after `build-installer.ps1`. It downloads the qpdf version set in the `.iss` file and checks its SHA-256. The output is `installer\output\PdfPasswordRemover-<version>-portable.zip`.
-
-## Releasing
-
-Push a version tag and [.github/workflows/release.yml](.github/workflows/release.yml) builds the installer and the portable zip on GitHub Actions and publishes them as a GitHub Release:
-
-```
-git tag v1.2.0
-git push origin v1.2.0
-```
-
-The version comes from the tag, so there's no need to edit the `.csproj` (its `<Version>` is only used for local builds). Use plain `vMAJOR.MINOR.PATCH` tags.
-
-## Finding qpdf
-
-The app looks for qpdf in this order:
-
-1. `qpdf.exe` in the same folder as `PdfPasswordRemover.exe`
-2. `qpdf\qpdf.exe` under that folder (where the installer puts it)
-3. `qpdf` on the `PATH`
-
-To ship the app to a machine without qpdf installed, copy `qpdf.exe` and the `.dll` files from qpdf's `bin` folder (for example `C:\Program Files\qpdf 12.4.2\bin`) next to `PdfPasswordRemover.exe`.
+PDF Password Remover uses [qpdf](https://qpdf.sourceforge.io/) to decrypt PDFs.
