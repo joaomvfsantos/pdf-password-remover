@@ -1,2 +1,3 @@
 # Store text files with LF in the repo, check them out with CRLF (Windows-only project).
 * text=auto eol=crlf
+*.ico binary

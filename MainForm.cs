@@ -13,6 +13,10 @@ public class MainForm : Form
     public MainForm()
     {
         Text = "PDF Password Remover";
+        // Load every size in app.ico so the title bar and taskbar stay sharp at any DPI
+        // (Icon.ExtractAssociatedIcon would give only a single 32px image).
+        using (var iconStream = typeof(MainForm).Assembly.GetManifestResourceStream("app.ico")!)
+            Icon = new Icon(iconStream);
         FormBorderStyle = FormBorderStyle.FixedDialog;
         MaximizeBox = false;
         StartPosition = FormStartPosition.CenterScreen;

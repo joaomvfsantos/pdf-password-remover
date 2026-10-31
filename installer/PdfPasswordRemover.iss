@@ -23,6 +23,7 @@ DefaultDirName={autopf}\{#AppName}
 DefaultGroupName={#AppName}
 DisableProgramGroupPage=yes
 UninstallDisplayIcon={app}\{#AppExe}
+SetupIconFile=..\app.ico
 ; Asks "install for me only" (no admin) or "for all users" (admin).
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
