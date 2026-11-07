@@ -66,4 +66,8 @@ Want to build the app yourself or help improve it? See [CONTRIBUTING.md](CONTRIB
 
 ## Credits
 
-PDF Unlock uses [qpdf](https://qpdf.sourceforge.io/) to decrypt PDFs.
+PDF Unlock uses [qpdf](https://qpdf.sourceforge.io/) to decrypt PDFs. qpdf is licensed under the Apache License 2.0.
+
+## License
+
+PDF Unlock is released under the [MIT License](LICENSE).

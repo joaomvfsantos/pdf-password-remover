@@ -51,51 +51,7 @@ Every Store submission needs a higher version than the last one, which version t
 
 > This is a desktop (Win32/.NET WinForms) app packaged as MSIX. runFullTrust is required for every desktop app in an MSIX package. The app runs the bundled qpdf command-line tool to decrypt the PDF the user picks.
 
-**Store listing (English)**: suggested text below. Upload the screenshots and use `store\Assets\Square150x150Logo.scale-200.png` as the logo if a 300×300 one is asked for.
-
-### Description
-
-```
-Tired of typing the same password every time you open a PDF? PDF Unlock saves an unlocked copy of the file, so it opens without asking.
-
-Bank statements, payslips, utility bills and other documents often arrive password-protected. If you know the password, this app removes it in a couple of clicks.
-
-• Simple: pick the file, type the password, click Decrypt.
-• Private: everything happens on your computer. Your files and passwords are never uploaded anywhere.
-• Safe: your original file is left untouched. The app saves a separate unlocked copy.
-• Free and open source.
-
-You need to know the PDF's password. This app does not guess or crack passwords.
-
-PDF Unlock uses qpdf (https://qpdf.sourceforge.io/), licensed under the Apache License 2.0.
-```
-
-### Short description
-
-```
-Remove the password from a PDF you can open, so it opens without asking next time.
-```
-
-### Features (one per line)
-
-```
-Remove the open password from a PDF
-Works offline: files and passwords never leave your PC
-Keeps your original file untouched
-Free and open source
-```
-
-### Search terms (up to 7)
-
-```
-pdf password
-unlock pdf
-remove pdf password
-decrypt pdf
-pdf unlocker
-pdf
-password
-```
+**Store listing (English)**: copy the texts from [LISTING.md](LISTING.md). Upload the screenshots and use `store\Assets\Square150x150Logo.scale-200.png` as the logo if a 300×300 one is asked for.
 
 ## After it's live
 
