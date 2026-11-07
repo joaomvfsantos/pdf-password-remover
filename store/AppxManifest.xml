@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  MSIX manifest for the Microsoft Store build. build-store.ps1 fills in Version.
+  Identity Name, Identity Publisher and PublisherDisplayName must match Partner Center >
+  Product management > Product identity exactly. They aren't secret: every installed copy of the
+  app shows them.
+-->
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap rescap">
+
+  <Identity
+    Name="JoaoSantos.PDFUnlock"
+    Publisher="CN=3E2B8162-EDEF-40B3-976C-4C671F7DC6FE"
+    Version="0.0.0.0"
+    ProcessorArchitecture="x64" />
+
+  <Properties>
+    <DisplayName>PDF Unlock</DisplayName>
+    <PublisherDisplayName>Joao Santos</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="en-us" />
+  </Resources>
+
+  <Applications>
+    <Application Id="App" Executable="PdfPasswordRemover.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements
+        DisplayName="PDF Unlock"
+        Description="Save an unlocked copy of a password-protected PDF."
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <!-- Required for every desktop (Win32) app in an MSIX package. -->
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>

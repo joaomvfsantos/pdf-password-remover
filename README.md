@@ -1,6 +1,8 @@
-# PDF Password Remover
+# PDF Unlock
 
-Tired of typing the same password every time you open a PDF? PDF Password Remover saves an unlocked copy of the file, so it opens without asking.
+Tired of typing the same password every time you open a PDF? PDF Unlock saves an unlocked copy of the file, so it opens without asking.
+
+*Formerly called PDF Password Remover.*
 
 Bank statements, payslips, utility bills and other documents often arrive password-protected. If you know the password, this app removes it in a couple of clicks.
 
@@ -30,11 +32,11 @@ Works on Windows 10 and Windows 11 (64-bit). Nothing else needs to be installed.
 3. Choose whether to install just for you (no admin rights needed) or for everyone on the computer.
 4. Follow the steps to finish. The installer needs an internet connection, because it downloads [qpdf](https://qpdf.sourceforge.io/), the free tool that does the actual decryption.
 
-To uninstall, go to **Settings > Apps > Installed apps**, find **PDF Password Remover** and click **Uninstall**.
+To uninstall, go to **Settings > Apps > Installed apps**, find **PDF Unlock** and click **Uninstall**.
 
 ## How to use it
 
-1. Open **PDF Password Remover** from the Start menu.
+1. Open **PDF Unlock** from the Start menu.
 2. Click **Browse…** and choose the locked PDF. You can also paste the file's path into the box.
 3. Type the PDF's password.
 4. Click **Decrypt** (or press Enter).
@@ -64,4 +66,4 @@ Want to build the app yourself or help improve it? See [CONTRIBUTING.md](CONTRIB
 
 ## Credits
 
-PDF Password Remover uses [qpdf](https://qpdf.sourceforge.io/) to decrypt PDFs.
+PDF Unlock uses [qpdf](https://qpdf.sourceforge.io/) to decrypt PDFs.

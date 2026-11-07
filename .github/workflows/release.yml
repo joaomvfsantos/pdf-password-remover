@@ -39,3 +39,17 @@ jobs:
           gh release create $env:GITHUB_REF_NAME `
             (Get-ChildItem installer/output/*-setup.exe, installer/output/*-portable.zip).FullName `
             --title $env:GITHUB_REF_NAME --generate-notes
+
+      # The Store package is built after the GitHub release so a problem here never blocks it.
+      # It's not attached to the release (users can't install an unsigned MSIX); download the
+      # store-package artifact from this run and upload it in Partner Center (see store/SUBMITTING.md).
+      - name: Build Microsoft Store package
+        run: ./build-store.ps1 -Version ($env:GITHUB_REF_NAME.TrimStart('v'))
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: store-package
+          path: installer/output/*.msix
+          if-no-files-found: error
+          # Store submissions are made right after a release; no need to keep the default 90 days.
+          retention-days: 30

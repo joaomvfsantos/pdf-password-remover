@@ -1,7 +1,7 @@
-; Inno Setup 6.5+ script for PDF Password Remover.
+; Inno Setup 6.5+ script for PDF Unlock.
 ; Build with build-installer.ps1, which publishes the app into installer\publish first.
 
-#define AppName "PDF Password Remover"
+#define AppName "PDF Unlock"
 #define AppExe "PdfPasswordRemover.exe"
 ; The exe's file version is 4-part (1.2.0.0); RemoveFileExt drops the last ".0" to give 1.2.0.
 #define AppVersion RemoveFileExt(GetVersionNumbersString(AddBackslash(SourcePath) + "publish\" + AppExe))
@@ -42,6 +42,13 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+
+; The app used to be called "PDF Password Remover". Remove its old shortcuts when upgrading, so the
+; renamed ones below don't appear next to them. (Upgrades keep the old install folder; only new
+; installs use the new name.)
+[InstallDelete]
+Type: files; Name: "{autoprograms}\PDF Password Remover.lnk"
+Type: files; Name: "{autodesktop}\PDF Password Remover.lnk"
 
 [Files]
 Source: "publish\{#AppExe}"; DestDir: "{app}"; Flags: ignoreversion

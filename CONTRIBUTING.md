@@ -1,6 +1,6 @@
 # Contributing
 
-This page covers building, packaging and releasing PDF Password Remover. For what the app does and how to install it, see the [README](README.md).
+This page covers building, packaging and releasing PDF Unlock. For what the app does and how to install it, see the [README](README.md).
 
 ## How it works
 
@@ -91,6 +91,28 @@ git push origin v1.2.0
 ```
 
 The version comes from the tag, so there's no need to edit the `.csproj` (its `<Version>` is only used for local builds). Use plain `vMAJOR.MINOR.PATCH` tags.
+
+The same workflow also builds the Microsoft Store package and saves it as the run's `store-package` artifact, to be uploaded in Partner Center by hand. See below.
+
+## Microsoft Store package
+
+The Store version is an MSIX package with qpdf included. To build it, run `build-store.ps1` after `build-installer.ps1`:
+
+```
+powershell -ExecutionPolicy Bypass -File build-store.ps1
+```
+
+The output is `installer\output\PdfPasswordRemover-<version>-x64.msix`. It uses `makeappx` and `makepri` from the Windows SDK if it's installed, and otherwise downloads them from the `Microsoft.Windows.SDK.BuildTools` NuGet package. The package is unsigned, because the Store signs it on submission.
+
+To try the packaged app locally, turn on **Developer Mode** (Settings > System > For developers), then register the unpacked package the script leaves behind:
+
+```
+Add-AppxPackage -Register installer\output\store-layout\AppxManifest.xml
+```
+
+It shows up in the Start menu like a Store install. Remove it from **Settings > Apps > Installed apps**. The test install has the same identity as the Store app, so uninstall the Store version first if you have it.
+
+The manifest is [store\AppxManifest.xml](store/AppxManifest.xml). Its icons in `store\Assets` are generated from `app.ico` by [store\make-assets.ps1](store/make-assets.ps1); run that again if the icon changes. How to submit to the Store is in [store\SUBMITTING.md](store/SUBMITTING.md).
 
 ## Finding qpdf
 
